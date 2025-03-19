@@ -3,9 +3,11 @@ package com.example.overclockAPI.services;
 import com.example.overclockAPI.entitys.Usuario;
 import com.example.overclockAPI.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -17,19 +19,22 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    /*
-    public Usuario getUsuarioByID(long id){
-        return usuarioRepository.findById(id).get();
-    }
-     */
+   public ResponseEntity<Usuario> buscarPorId(Long id){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+        if(usuarioOptional.isPresent()){
+            return ResponseEntity.ok(usuarioOptional.get());
+        }
+        else{
+            return ResponseEntity.notFound().build();
+        }
+   }
 
     public Usuario salvarUsuario(Usuario usuario){
         return usuarioRepository.save(usuario);
     }
 
-    /*
-    public Usuario deletarUsuario(String usuario){
-        return usuarioRepository.delete(usuario);
+    public Usuario deletarUsuario(Long id) {
+        usuarioRepository.deleteById(id);
+        return usuarioRepository.findById(id).get();
     }
-     */
 }
