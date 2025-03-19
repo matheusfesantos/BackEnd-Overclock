@@ -5,31 +5,46 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 @Entity
-@Table(name = "usuarios")
+@Table(name = "USUARIOS")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "ID_usuario")
+    private Long id;
 
     @Getter
     @Setter
-    @Column(name = "username",nullable = false)
-    private String username;
+    private String nome;
 
     @Getter
     @Setter
-    @Column(name = "password", nullable = false)
-    private String password;
-
-    @Getter
-    @Setter
-    @Column(name = "email",nullable = false)
     private  String email;
 
     @Getter
     @Setter
-    @Column(name = "criado_em",nullable = false)
-    private String criadoEm;
+    @Column(name = "senha_hash", columnDefinition = "TEXT")
+    private String senha;
+
+    @Getter
+    @Setter
+    private TipoUsuario tipo;
+
+    @Getter
+    @Setter
+    private Timestamp data_criacao;
+
+    @Getter
+    @Setter
+    @Column(name = "CPF")
+    private int cpf;
+
+    @Getter
+    @Setter
+    private String authToken;
+
 }
