@@ -10,41 +10,25 @@ import java.util.Date;
 
 @Entity
 @Table(name = "USUARIOS")
+@Data
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_usuario")
-    private Long id;
+    private Long ID_usuario;
 
-    @Getter
-    @Setter
     private String nome;
 
-    @Getter
-    @Setter
     private  String email;
 
-    @Getter
-    @Setter
-    @Column(name = "senha_hash", columnDefinition = "TEXT")
-    private String senha;
+    private String senha_hash;
 
-    @Getter
-    @Setter
+    @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
 
-    @Getter
-    @Setter
     private Timestamp data_criacao;
 
-    @Getter
-    @Setter
     @Column(name = "CPF")
     private int cpf;
-
-    @Getter
-    @Setter
-    private String authToken;
 
 }
