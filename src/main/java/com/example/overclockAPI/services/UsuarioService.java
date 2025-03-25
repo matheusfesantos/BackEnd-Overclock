@@ -34,7 +34,12 @@ public class UsuarioService {
     }
 
     public Usuario deletarUsuario(Long id) {
-        usuarioRepository.deleteById(id);
-        return usuarioRepository.findById(id).get();
+        if (usuarioRepository.existsById(id)){
+            usuarioRepository.deleteById(id);
+        }
+        else{
+            System.out.print("Esse usuario não existe");
+        }
+        return null;
     }
 }
