@@ -1,12 +1,15 @@
 package com.example.overclockAPI.entitys;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "USUARIOS")
@@ -26,9 +29,14 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo;
 
-    private Timestamp data_criacao;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime data_criacao;
 
     @Column(name = "CPF")
     private int cpf;
 
+    @PrePersist //incrementar automaticamente data da criação do usuario
+    private void DataCriacao(){
+        this.data_criacao = LocalDateTime.now();
+    }
 }

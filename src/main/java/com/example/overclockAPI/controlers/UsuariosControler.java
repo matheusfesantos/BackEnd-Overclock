@@ -15,14 +15,8 @@ import java.util.List;
 @RequestMapping("api/usuarios")
 public class UsuariosControler {
 
-    private final UsuarioService usuarioService;
-
-    private final UsuarioRepository userRepos;
-
-    public UsuariosControler(UsuarioService usuarioService, UsuarioRepository userRepos) {
-        this.usuarioService = usuarioService;
-        this.userRepos = userRepos;
-    }
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<List<Usuario>> getUsuario(){
@@ -46,13 +40,8 @@ public class UsuariosControler {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
-        if (userRepos.existsById(id)) {
-            userRepos.deleteById(id);
-        }
-        else{
-            return ResponseEntity.notFound().build();
-        }
-        return null;
+    public ResponseEntity<Usuario> deletarUsuario (@PathVariable Long id) {
+        usuarioService.deletarUsuario(id);
+        return ResponseEntity.ok().build();
     }
 }
