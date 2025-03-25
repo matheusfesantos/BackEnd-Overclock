@@ -33,13 +33,13 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario deletarUsuario(Long id) {
-        if (usuarioRepository.existsById(id)){
-            usuarioRepository.deleteById(id);
+    public boolean deletarUsuario(Long id) {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+
+        if(usuarioOptional.isPresent()){
+            usuarioRepository.delete(usuarioOptional.get());
+            return true;
         }
-        else{
-            System.out.print("Esse usuario não existe");
-        }
-        return null;
+        return false;
     }
 }
