@@ -1,0 +1,34 @@
+package com.example.overclockAPI.services;
+
+import com.example.overclockAPI.entitys.Pecas;
+import com.example.overclockAPI.entitys.Usuario;
+import com.example.overclockAPI.repository.PecasRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class PecasService {
+
+    @Autowired
+    private PecasRepository pecasRepos;
+
+    public List<Pecas> listarPecas() {
+        return pecasRepos.findAll();
+    }
+
+    public ResponseEntity<Pecas> listarPecasPorID(Long id) {
+        Optional<Pecas> pecasOptional = pecasRepos.findById(id);
+
+        if(pecasOptional.isPresent()){
+            return new ResponseEntity<>(pecasOptional.get(), HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+}
