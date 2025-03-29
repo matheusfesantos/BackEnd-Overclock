@@ -1,8 +1,6 @@
 package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.entitys.Usuario;
-import com.example.overclockAPI.exception.ValorNuloException;
-import com.example.overclockAPI.repository.UsuarioRepository;
 import com.example.overclockAPI.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/usuarios")
-public class UsuariosControler {
+public class UsuariosController {
 
     @Autowired
     private UsuarioService usuarioService;
