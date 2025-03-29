@@ -31,4 +31,31 @@ public class PecasService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    public Pecas salvarPecas(Pecas pecas) {
+        return pecasRepos.save(pecas);
+    }
+
+    //Service para atualizar Peças
+    /*
+    public boolean editarPecas(Long id, Pecas pecas) {
+        Optional<Pecas> pecasOptional = pecasRepos.findById(id);
+
+        if(pecasOptional.isPresent()){
+            pecasRepos.save(pecas);
+            return true;
+        }
+        return false;
+    }
+     */
+
+    public boolean deletarPecas (Long id) {
+        Optional<Pecas> pecasOptional = pecasRepos.findById(id);
+
+        if(pecasOptional.isPresent()){
+            pecasRepos.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
