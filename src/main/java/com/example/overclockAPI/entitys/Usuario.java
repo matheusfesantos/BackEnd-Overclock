@@ -1,15 +1,11 @@
 package com.example.overclockAPI.entitys;
 
+import com.example.overclockAPI.entitys.enums.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "USUARIOS")
