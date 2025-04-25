@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin(origins = "https://v0-simples-mrp-react.vercel.app")
 @RestController
 @RequestMapping("api/usuarios")
 public class UsuariosController {
