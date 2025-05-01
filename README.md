@@ -1,7 +1,5 @@
 # BackEnd-Projeto-Integrador
-<p>
-  <img src="https://skillicons.dev/icons?i=spring,mysql,aws,docker&theme=dark" width="150" alt="Framewors"/>
-</p>
+![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white) ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white) ![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
 
 Bem-vindo ao repositório do **BackEnd-Projeto-Integrador**! Este projeto foi desenvolvido como parte de um **projeto integrador da faculdade**, utilizando tecnologias modernas para criar uma API backend funcional e escalável.
 
