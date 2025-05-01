@@ -1,4 +1,7 @@
 # BackEnd-Projeto-Integrador
+<p>
+  <img src="https://skillicons.dev/icons?i=spring,react,dotnet,nextjs&theme=dark" width="150" alt="Spring, MySQL, JWT" />
+</p>
 
 Bem-vindo ao repositório do **BackEnd-Projeto-Integrador**! Este projeto foi desenvolvido como parte de um **projeto integrador da faculdade**, utilizando tecnologias modernas para criar uma API backend funcional e escalável.
 
