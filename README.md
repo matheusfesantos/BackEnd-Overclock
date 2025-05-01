@@ -1,6 +1,6 @@
 # BackEnd-Projeto-Integrador
 <p>
-  <img src="https://skillicons.dev/icons?i=spring,mysql,aws,docker,jwt&theme=dark" width="150" alt="Framewors"/>
+  <img src="https://skillicons.dev/icons?i=spring,mysql,aws,docker&theme=dark" width="150" alt="Framewors"/>
 </p>
 
 Bem-vindo ao repositório do **BackEnd-Projeto-Integrador**! Este projeto foi desenvolvido como parte de um **projeto integrador da faculdade**, utilizando tecnologias modernas para criar uma API backend funcional e escalável.
