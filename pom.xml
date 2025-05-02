@@ -48,6 +48,10 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope> <!-- Mudado de annotationProcessor para provided -->
 		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
