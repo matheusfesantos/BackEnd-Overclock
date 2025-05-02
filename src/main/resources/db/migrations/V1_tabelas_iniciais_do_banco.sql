@@ -6,9 +6,8 @@ CREATE TABLE USUARIOS (
     senha_hash TEXT NOT NULL ,
     tipo enum('admin','usuario') DEFAULT 'usuario',
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CPF CHAR(14) NOT NULL,
+    CPF CHAR(14) NOT NULL
 );
-
 
 -- TABELA FORNECEDORES
 CREATE TABLE fornecedores (
