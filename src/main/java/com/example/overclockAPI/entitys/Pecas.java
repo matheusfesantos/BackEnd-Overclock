@@ -10,7 +10,7 @@ public class Pecas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID_peca;
+    private Long id_peca;
 
     @Column(name = "nome")
     private String nome_do_produto;
@@ -35,5 +35,6 @@ public class Pecas {
 
     //@ManyToOne
     //@JoinColumn
+    @Column(name = "id_fornecedor")
     private int ID_fornecedor;
 }

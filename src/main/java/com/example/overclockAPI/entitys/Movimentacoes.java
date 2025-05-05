@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/*
 @Entity
 @Data
 @Table(name = "movimentacoes")
@@ -36,3 +37,4 @@ public class Movimentacoes {
         this.data_movimentacao = LocalDateTime.now();
     }
 }
+ */
