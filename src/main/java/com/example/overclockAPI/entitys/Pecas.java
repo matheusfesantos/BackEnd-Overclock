@@ -10,26 +10,31 @@ public class Pecas {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID_peca;
+    private Long id_peca;
 
-    private String nome;
+    @Column(name = "nome")
+    private String nome_do_produto;
 
-    private String descricao;
+    @Column(name = "descricao")
+    private String descricao_do_produto;
 
-    private String categoria;
+    @Column(name = "categoria")
+    private String categoria_do_produto;
 
-    private String marca;
+    @Column(name = "marca")
+    private String marca_do_produto;
 
     @Column(name = "qtd_estoque")
-    private int quantidade;
+    private int quantidade_estoque;
 
     @Column(name = "preco_custo")
-    private double preco;
+    private double preco_custo;
 
     @Column(name = "preco_venda")
-    private double precoVenda;
+    private double preco_venda;
 
     //@ManyToOne
     //@JoinColumn
+    @Column(name = "id_fornecedor")
     private int ID_fornecedor;
 }
