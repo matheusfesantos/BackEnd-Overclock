@@ -1,3 +1,6 @@
+CREATE TYPE tipo_usuario
+AS ENUM ('admin', 'usuario');
+
 CREATE TABLE usuarios (
     id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
