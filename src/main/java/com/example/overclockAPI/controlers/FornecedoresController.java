@@ -21,12 +21,12 @@ public class FornecedoresController {
     @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<Fornecedores> getAll() {
-        return fornecedoresService.findAll();
+       return fornecedoresService.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{id_fornecedor}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Fornecedores getById(@PathVariable Long id_fornecedor) {
+    public Fornecedores getbyId (@PathVariable Long id_fornecedor) {
         return fornecedoresService.findById(id_fornecedor);
     }
 
@@ -36,18 +36,25 @@ public class FornecedoresController {
         return fornecedoresService.save(fornecedores);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id_fornecedor}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<Map<String, String>> deleteById(@PathVariable Long id_fornecedor) {
-        boolean usuarioDeletado = fornecedoresService.deletarUsuario(id_fornecedor);
         Map<String, String> resposta = new HashMap<>();
 
-        if(usuarioDeletado){
-            resposta.put("message", "Usuario foi deletado com sucesso!");
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(resposta);
+        try{
+            boolean usuarioDeletado = fornecedoresService.deletarUsuario(id_fornecedor);
+
+            if(usuarioDeletado){
+                resposta.put("message", "Usuario foi deletado com sucesso!");
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(resposta);
+            }
+            else{
+                resposta.put("message", "Esse usuario não existe!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
+            }
         }
-        else{
-            resposta.put("message", "Erro ao deletar o usuario !");
+        catch (Exception e){
+            resposta.put("message", "Erro ao deletar usuario!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
         }
     }

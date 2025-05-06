@@ -17,7 +17,7 @@ public class Fornecedores {
     @Column(name = "nome")
     private String nome_fornecedor;
 
-    @Column(name = "cpnj")
+    @Column(name = "cnpj")
     private String cpnj_fornecedor;
 
     @Column(name = "telefone")

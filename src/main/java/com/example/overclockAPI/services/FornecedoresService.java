@@ -3,7 +3,9 @@ package com.example.overclockAPI.services;
 import com.example.overclockAPI.entitys.Fornecedores;
 import com.example.overclockAPI.repository.FornecedoresRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +20,8 @@ public class FornecedoresService {
         return fornecedoresRepos.findAll();
     }
 
-    public Fornecedores findById(Long id) {
-        Fornecedores fornecedores = fornecedoresRepos.findById(id).get();
-        return fornecedores;
+    public Fornecedores findById( Long id) {
+        return fornecedoresRepos.getById(id);
     }
 
     public Fornecedores save(Fornecedores fornecedores) {
