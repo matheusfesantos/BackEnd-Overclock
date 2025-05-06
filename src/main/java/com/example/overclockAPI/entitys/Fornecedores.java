@@ -1,9 +1,13 @@
 package com.example.overclockAPI.entitys;
 
 import jakarta.persistence.*;
+import lombok.Data;
+
+import java.util.List;
 
 @Entity
-@Table(name = "forncedores")
+@Table(name = "fornecedores")
+@Data
 public class Fornecedores {
 
     @Id

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/forncedores")
+@RequestMapping("api/fornecedores")
 public class FornecedoresController {
 
     @Autowired
@@ -26,8 +26,8 @@ public class FornecedoresController {
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Fornecedores getById(@PathVariable Long id) {
-        return fornecedoresService.findById(id);
+    public Fornecedores getById(@PathVariable Long id_fornecedor) {
+        return fornecedoresService.findById(id_fornecedor);
     }
 
     @PostMapping
@@ -36,10 +36,10 @@ public class FornecedoresController {
         return fornecedoresService.save(fornecedores);
     }
 
-    @GetMapping
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<Map<String, String>> deleteById(@PathVariable Long id) {
-        boolean usuarioDeletado = fornecedoresService.deletarUsuario(id);
+    public ResponseEntity<Map<String, String>> deleteById(@PathVariable Long id_fornecedor) {
+        boolean usuarioDeletado = fornecedoresService.deletarUsuario(id_fornecedor);
         Map<String, String> resposta = new HashMap<>();
 
         if(usuarioDeletado){
@@ -47,7 +47,7 @@ public class FornecedoresController {
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(resposta);
         }
         else{
-            resposta.put("message", "Erro ao deletar o Usuario!");
+            resposta.put("message", "Erro ao deletar o usuario !");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
         }
     }
