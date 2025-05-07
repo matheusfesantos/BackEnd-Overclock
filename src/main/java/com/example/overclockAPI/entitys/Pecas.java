@@ -35,5 +35,5 @@ public class Pecas {
 
     @ManyToOne
     @JoinColumn(name = "id_fornecedor")
-    private Fornecedores fornecedores;
+    private Fornecedores fornecedor;
 }
