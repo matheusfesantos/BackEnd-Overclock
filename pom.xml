@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.3</version> <!-- Alinhei a versão com a versão do Spring Boot -->
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
@@ -13,11 +13,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>overclockAPI</name>
 	<description>API de Gerenciar de peças de PC</description>
+
 	<properties>
 		<java.version>17</java.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -36,23 +38,23 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.7.5</version> <!-- Use a versão mais recente do driver -->
+			<version>42.7.5</version> <!-- Versão do PostgreSQL driver -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>3.4.1</version>
+			<version>3.4.3</version> <!-- Alinhei a versão com a versão do Spring Boot -->
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>provided</scope> <!-- Mudado de annotationProcessor para provided -->
+			<scope>provided</scope> <!-- Para desenvolvimento, se necessário, altere para compile -->
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-			<version>9.5.1</version>
+			<version>9.5.1</version> <!-- Flyway para migrações de banco de dados -->
 		</dependency>
 	</dependencies>
 
