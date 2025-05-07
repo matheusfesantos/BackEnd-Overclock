@@ -33,8 +33,7 @@ public class Pecas {
     @Column(name = "preco_venda")
     private double preco_venda;
 
-    //@ManyToOne
-    //@JoinColumn
-    @Column(name = "id_fornecedor")
-    private int ID_fornecedor;
+    @ManyToOne
+    @JoinColumn(name = "id_fornecedor")
+    private Fornecedores fornecedor;
 }

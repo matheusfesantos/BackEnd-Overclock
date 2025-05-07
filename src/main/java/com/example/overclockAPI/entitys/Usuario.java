@@ -8,19 +8,19 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "USUARIOS")
 @Data
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID_usuario;
+    private Long id_usuario;
 
     @Column(name = "nome")
     private String nome;
 
     @Column(name = "email")
-    private  String email;
+    private String email;
 
     @Column(name = "senha_hash")
     private String senha;
@@ -33,7 +33,7 @@ public class Usuario {
     private LocalDateTime data_criacao;
 
     @Column(name = "cpf")
-    private int cpf;
+    private String cpf;
 
     @PrePersist //incrementar automaticamente data da criação do usuario
     private void DataCriacao(){
