@@ -4,28 +4,38 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum TipoUsuario {
-    admin("admin"),
+    ADMIN("ADMIN"),
+    USUARIO("USUARIO");
 
-    usuario("usuario");
+    private String tipo;
 
-    private String role;
-
-    TipoUsuario(String role){
-        this.role = role;
+    TipoUsuario(String tipo) {
+        this.tipo = tipo;
     }
 
     @JsonValue
-    public String getRole(){
-        return role;
+    public String getRole() {
+        return this.tipo;
     }
 
     @JsonCreator
-    public static TipoUsuario fromString(String role){
-        for(TipoUsuario tipoUsuario : TipoUsuario.values()){
-            if(tipoUsuario.getRole().equals(role)){
+    public static TipoUsuario fromString(String role) {
+        if (role == null) {
+            throw new IllegalArgumentException("Tipo de usuário não pode ser nulo!");
+        }
+        
+        for (TipoUsuario tipoUsuario : TipoUsuario.values()) {
+            if (tipoUsuario.tipo.equalsIgnoreCase(role)) {
                 return tipoUsuario;
             }
         }
-        throw new IllegalArgumentException("Tipo de usuario inválido!");
+        throw new IllegalArgumentException(
+            "Tipo de usuário inválido! Valores aceitos: ADMIN ou USUARIO"
+        );
+    }
+
+    @Override
+    public String toString() {
+        return this.tipo;
     }
 }

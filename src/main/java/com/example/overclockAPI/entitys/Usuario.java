@@ -39,15 +39,26 @@ public class Usuario implements UserDetails {
     @Column(name = "username")
     private String username;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "tipo")
-    private TipoUsuario tipo_usuario;
+    @Enumerated(EnumType.STRING) //Enum para o tipo de usuario, admin ou user
+    @Column(name = "tipo", columnDefinition = "tipo_usuario")
+    private TipoUsuario tipo;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime data_criacao;
 
     @Column(name = "cpf")
     private String cpf;
+
+    public Usuario(String username, String senha, String nome, String email, String cpf, TipoUsuario tipoUsuario) {
+        this.username = username;
+        this.senha = senha;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.tipo = tipoUsuario;
+        this.data_criacao = LocalDateTime.now();
+    }
+
 
     @PrePersist //incrementar automaticamente data da criação do usuario
     private void DataCriacao(){
@@ -56,16 +67,16 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.tipo_usuario == TipoUsuario.admin)
-            return List.of(new SimpleGrantedAuthority("ADMIN"),
-                    new SimpleGrantedAuthority("USER"));
+        if (this.tipo == TipoUsuario.ADMIN)
+            return List.of(new SimpleGrantedAuthority("TIPO_ADMIN"),
+                    new SimpleGrantedAuthority("TIPO_USER"));
 
-        else return List.of(new SimpleGrantedAuthority("USER"));
+        else return List.of(new SimpleGrantedAuthority("TIPO_USER"));
     }
 
     @Override
     public String getPassword() { //LOGIN PRINCIPAL E UNICO POR USER
-        return username;
+        return senha;
     }
 
     @Override
