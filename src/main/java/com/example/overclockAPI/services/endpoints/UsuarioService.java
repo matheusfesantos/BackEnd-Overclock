@@ -1,4 +1,4 @@
-package com.example.overclockAPI.services;
+package com.example.overclockAPI.services.endpoints;
 
 import com.example.overclockAPI.entitys.Usuario;
 import com.example.overclockAPI.repository.UsuarioRepository;

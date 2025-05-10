@@ -1,7 +1,7 @@
 package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.entitys.Pecas;
-import com.example.overclockAPI.services.PecasService;
+import com.example.overclockAPI.services.endpoints.PecasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

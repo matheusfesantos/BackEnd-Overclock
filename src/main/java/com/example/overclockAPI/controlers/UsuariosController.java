@@ -1,7 +1,7 @@
 package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.entitys.Usuario;
-import com.example.overclockAPI.services.UsuarioService;
+import com.example.overclockAPI.services.endpoints.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
