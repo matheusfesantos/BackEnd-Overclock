@@ -31,152 +31,142 @@ As principais tecnologias empregadas no projeto incluem:
 
 ---
 
-## 🆕 Novidades na Versão [v0.4.2](https://github.com/matheusfesantos/BackEnd-Overclock/releases/tag/v0.4.2)
+## 📋 Objetivo do Projeto
 
-### 🔧 **Melhorias no Sistema**
-- Migração para **PostgreSQL 15**.
-- Adição de **Flyway** para controle de migrations.
-- Novas funcionalidades para gestão de **fornecedores** e **peças**.
-- Pipeline CI/CD atualizado para incluir automação de testes e deploy.
+O BackEnd-Overclock tem como objetivo fornecer a infraestrutura backend para um sistema de gestão de peças e fornecedores. Ele oferece endpoints que permitem:
+
+- Adicionar, editar, listar e remover peças e fornecedores.
+- Facilitar o gerenciamento de informações em um sistema de MRP.
+- Ser escalável e preparado para futuras implementações, como autenticação e controle de usuários.
 
 ---
 
-## 📂 Estrutura do Projeto
+## 🌐 URL de Produção
 
+A aplicação está hospedada em Render e pode ser acessada através do seguinte link:
+
+[https://backend-projeto-integrador.onrender.com](https://backend-projeto-integrador.onrender.com)
+
+---
+
+## 🧑‍💻 Direções para o Desenvolvedor Front-End
+
+Para integrar o BackEnd-Overclock com o Front-End, o desenvolvedor pode consumir os seguintes endpoints da API. Abaixo, apresentamos uma lista de recursos importantes que o Front-End pode utilizar:
+
+### 📡 **Endpoints Disponíveis**
+
+1. **Gestão de Peças**:
+   - `GET /pecas`: Lista todas as peças cadastradas.
+   - `POST /pecas`: Cria uma nova peça no sistema.
+   - `PUT /pecas/{id}`: Atualiza as informações de uma peça.
+   - `DELETE /pecas/{id}`: Remove uma peça do sistema.
+
+2. **Gestão de Fornecedores**:
+   - `GET /fornecedores`: Lista todos os fornecedores cadastrados.
+   - `POST /fornecedores`: Adiciona um novo fornecedor ao sistema.
+   - `PUT /fornecedores/{id}`: Atualiza os dados de um fornecedor.
+   - `DELETE /fornecedores/{id}`: Remove um fornecedor do sistema.
+
+### Comportamento dos Endpoints de DELETE:
+
+Quando um endpoint DELETE é chamado para excluir um recurso (como peça ou fornecedor), a resposta não inclui a "data" e retorna apenas a mensagem de status conforme o resultado da operação.
+
+#### Exemplos de resposta para a exclusão de uma peça:
+
+1. **Peça deletada com sucesso**:
+   ```json
+   {
+     "status": "success",
+     "message": "Peça deletada"
+   }
+   ```
+
+2. **Peça não existe** (tentativa de exclusão de uma peça inexistente):
+   ```json
+   {
+     "status": "error",
+     "message": "Peça não existe"
+   }
+   ```
+
+3. **Erro ao deletar a peça**:
+   ```json
+   {
+     "status": "error",
+     "message": "Erro ao deletar a peça"
+   }
+   ```
+
+### Exemplo de consumo da API no Front-End (Axios)
+
+```typescript
+import axios from 'axios';
+
+// URL da API no ambiente de produção (Render)
+const apiUrl = 'https://backend-projeto-integrador.onrender.com';
+
+// Requisição para deletar uma peça
+axios.delete(`${apiUrl}/pecas/1`)
+  .then((response) => {
+    console.log('Resposta:', response.data);
+  })
+  .catch((error) => {
+    console.error('Erro ao deletar peça:', error);
+  });
 ```
-BackEnd-Overclock/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   ├── com.example.overclock/  # Pacotes principais
-│   │   │   │   ├── controllers/        # Controladores da aplicação
-│   │   │   │   ├── services/           # Lógica de negócios
-│   │   │   │   ├── repositories/       # Repositórios de acesso ao banco
-│   │   │   │   ├── models/             # Modelos de dados
-│   │   ├── resources/
-│   │       ├── application.yml         # Configurações do Spring
-├── docker-compose.yml                  # Configuração de serviços Docker
-├── pom.xml                             # Arquivo de configuração do Maven
-└── ...
-```
+
+### Erro de CORS:
+
+Se você enfrentar problemas de CORS (Cross-Origin Resource Sharing), isso ocorre quando a aplicação Front-End tenta acessar a API de um domínio diferente do domínio da API. Para resolver isso, é importante que o Front-End seja configurado para se comunicar com o servidor corretamente. Caso tenha dificuldades com isso, entre em contato com Matheus para orientações adicionais sobre a configuração de CORS no Spring.
 
 ---
 
 ## 🔧 Instalação e Configuração
 
 ### Pré-requisitos
-- **Java 17** instalado.
-- **PostgreSQL** (versão 15 ou superior) configurado.
-- **Docker** e **Docker Compose** instalados.
-- **Maven** instalado.
 
-### Passos
+Antes de rodar o projeto, verifique se você tem as seguintes ferramentas instaladas:
+
+- **Java 17**
+- **Maven**
+- **Docker** (para facilitar a execução do banco de dados PostgreSQL)
+
+### Passos para rodar o Backend:
+
 1. Clone o repositório:
    ```bash
    git clone https://github.com/matheusfesantos/BackEnd-Overclock.git
    ```
+
 2. Navegue até o diretório do projeto:
    ```bash
    cd BackEnd-Overclock
    ```
-3. Configure as variáveis de ambiente no arquivo `application.yml`:
-   - Atualize as credenciais do banco de dados PostgreSQL.
-4. Execute os serviços com Docker Compose:
+
+3. Configure o banco de dados no arquivo `application.yml` (ou utilize Docker para rodar o PostgreSQL).
+
+4. Suba o banco de dados com Docker:
    ```bash
    docker-compose up
    ```
-5. Execute a aplicação:
+
+5. Rode a aplicação com Maven:
    ```bash
    mvn spring-boot:run
    ```
-6. Acesse a API na URL:
-   ```
-   http://localhost:8080
-   ```
 
----
-
-## 🧑‍💻 Como o Dev Front-End Pode Usá-lo
-
-O **BackEnd-Overclock** foi projetado para ser a base de dados e lógica de negócios do sistema MRP. Abaixo estão as informações para que o desenvolvedor Front-End, utilizando **TypeScript**, possa consumir a API de forma eficiente:
-
-### 📡 **Endpoints Disponíveis**
-1. **Gestão de Peças**:
-   - `GET /pecas`: Lista todas as peças cadastradas.
-   - `POST /pecas`: Cadastra uma nova peça.
-   - `PUT /pecas/{id}`: Atualiza informações de uma peça.
-   - `DELETE /pecas/{id}`: Remove uma peça do sistema.
-
-2. **Gestão de Fornecedores**:
-   - `GET /fornecedores`: Lista todos os fornecedores.
-   - `POST /fornecedores`: Adiciona um novo fornecedor.
-   - `PUT /fornecedores/{id}`: Atualiza informações de um fornecedor.
-   - `DELETE /fornecedores/{id}`: Remove um fornecedor do sistema.
-
-3. **Usuários**:
-   - `GET /usuarios`: Lista todos os usuários.
-   - `POST /usuarios`: Cria um novo usuário.
-
-### 🛠️ **Recomendação: Uso do Axios**
-No Front-End, recomendamos o uso da biblioteca **Axios** para consumir a API, devido à sua simplicidade e suporte a TypeScript.
-
-#### Exemplo de Requisição com Axios e TypeScript:
-```typescript
-import axios, { AxiosResponse } from 'axios';
-
-// Definição da interface para os dados da peça
-interface Peca {
-  id: number;
-  nome: string;
-  descricao: string;
-  preco: number;
-}
-
-// URL base da API
-const api = axios.create({
-  baseURL: 'http://localhost:8080',
-});
-
-// Exemplo de requisição GET para listar peças
-const listarPecas = async (): Promise<Peca[]> => {
-  try {
-    const resposta: AxiosResponse<Peca[]> = await api.get('/pecas');
-    console.log('Peças cadastradas:', resposta.data);
-    return resposta.data;
-  } catch (erro) {
-    console.error('Erro ao buscar peças:', erro);
-    throw erro;
-  }
-};
-
-// Exemplo de uso da função
-listarPecas().then((pecas) => console.log(pecas));
-```
-
-### 🌐 **Fluxo de Integração**
-- O **Front-End** deve consumir os dados da API para exibir informações aos usuários, como:
-  - Catálogo de peças.
-  - Lista de fornecedores.
-  - Detalhes de estoque.
-- Além disso, o **Front-End** pode enviar dados para serem processados pelo Back-End, como ao cadastrar um novo fornecedor ou atualizar informações de uma peça.
+6. A aplicação estará disponível em:
+   - **Local**: [http://localhost:8080](http://localhost:8080)
+   - **Produção (Render)**: [https://backend-projeto-integrador.onrender.com](https://backend-projeto-integrador.onrender.com)
 
 ---
 
 ## 🧪 Testes
 
-Para rodar os testes automatizados, utilize o comando:
+Para rodar os testes automatizados, execute o comando:
+
 ```bash
 mvn test
 ```
-
----
-
-## 🌐 Deploy
-
-O deploy da aplicação está configurado com **GitHub Actions** para automação do pipeline de CI/CD. As alterações nos branches **main** e **develop** acionam o fluxo de integração contínua, que inclui:
-
-- Execução de testes.
-- Build da aplicação.
-- Deploy na infraestrutura configurada.
 
 ---
