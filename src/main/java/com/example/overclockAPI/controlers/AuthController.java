@@ -30,7 +30,7 @@ public class AuthController {
     private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Validated AuthDTO authDTO){
+    public ResponseEntity<?> login(@RequestBody @Validated AuthDTO authDTO){
 
         try{
             var usernamePassword = new UsernamePasswordAuthenticationToken
@@ -50,7 +50,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Validated RegisterDTO registerDTO){
+    public ResponseEntity<?> register(@RequestBody @Validated RegisterDTO registerDTO){
 
         try{
             if
