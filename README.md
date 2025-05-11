@@ -5,13 +5,9 @@ Bem-vindo ao repositório do **BackEnd-Overclock**! Este projeto é uma API back
 
 **Versão atual:** [v0.4.2](https://github.com/matheusfesantos/BackEnd-Overclock/releases/tag/v0.4.2)
 
----
-
 ## 📋 Sobre o Projeto
 
 O **BackEnd-Overclock** foi desenvolvido para oferecer suporte ao gerenciamento de fornecedores e peças em um sistema de MRP. Ele fornece endpoints para operações de CRUD e integração com um banco de dados PostgreSQL. Esta versão não inclui autenticação, facilitando o uso em ambientes de desenvolvimento.
-
----
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -29,8 +25,6 @@ As principais tecnologias empregadas no projeto incluem:
 - **Docker**: Para containerização e portabilidade.
 - **GitHub Actions**: Para CI/CD automatizado.
 
----
-
 ## 📋 Objetivo do Projeto
 
 O BackEnd-Overclock tem como objetivo fornecer a infraestrutura backend para um sistema de gestão de peças e fornecedores. Ele oferece endpoints que permitem:
@@ -39,7 +33,6 @@ O BackEnd-Overclock tem como objetivo fornecer a infraestrutura backend para um 
 - Facilitar o gerenciamento de informações em um sistema de MRP.
 - Ser escalável e preparado para futuras implementações, como autenticação e controle de usuários.
 
----
 
 ## 🌐 URL de Produção
 
@@ -47,7 +40,6 @@ A aplicação está hospedada em Render e pode ser acessada através do seguinte
 
 [https://backend-projeto-integrador.onrender.com](https://backend-projeto-integrador.onrender.com)
 
----
 
 ## 🧑‍💻 Direções para o Desenvolvedor Front-End
 
@@ -119,7 +111,6 @@ axios.delete(`${apiUrl}/pecas/1`)
 
 Se você enfrentar problemas de CORS (Cross-Origin Resource Sharing), isso ocorre quando a aplicação Front-End tenta acessar a API de um domínio diferente do domínio da API. Para resolver isso, é importante que o Front-End seja configurado para se comunicar com o servidor corretamente. Caso tenha dificuldades com isso, entre em contato com Matheus para orientações adicionais sobre a configuração de CORS no Spring.
 
----
 
 ## 🔧 Instalação e Configuração
 
@@ -159,7 +150,6 @@ Antes de rodar o projeto, verifique se você tem as seguintes ferramentas instal
    - **Local**: [http://localhost:8080](http://localhost:8080)
    - **Produção (Render)**: [https://backend-projeto-integrador.onrender.com](https://backend-projeto-integrador.onrender.com)
 
----
 
 ## 🧪 Testes
 
@@ -168,5 +158,3 @@ Para rodar os testes automatizados, execute o comando:
 ```bash
 mvn test
 ```
-
----
