@@ -1,7 +1,6 @@
-package com.example.overclockAPI.services;
+package com.example.overclockAPI.services.endpoints;
 
 import com.example.overclockAPI.entitys.Pecas;
-import com.example.overclockAPI.entitys.Usuario;
 import com.example.overclockAPI.repository.PecasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

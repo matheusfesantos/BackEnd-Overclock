@@ -22,6 +22,9 @@ public class OverclockApiApplication {
 		System.setProperty("spring.datasource.password",
 				Objects.requireNonNull(dotenv.get("DB_PASSWORD")));
 
+		System.setProperty("api.security.token.security",
+				Objects.requireNonNull(dotenv.get("JWT_SECRET")));
+
 		SpringApplication.run(OverclockApiApplication.class, args);
 	}
 }
