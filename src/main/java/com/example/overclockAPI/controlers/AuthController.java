@@ -7,11 +7,14 @@ import com.example.overclockAPI.entitys.dto.RegisterDTO;
 import com.example.overclockAPI.infra.security.TokenService;
 import com.example.overclockAPI.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("auth")
@@ -29,24 +32,41 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthDTO authDTO){
 
-        var usernamePassword = new UsernamePasswordAuthenticationToken
-                (authDTO.username(), authDTO.senha());
+        try{
+            var usernamePassword = new UsernamePasswordAuthenticationToken
+                    (authDTO.username(), authDTO.senha());
 
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+            var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+            var token = tokenService.generateToken((Usuario) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginReespondeDTO(token));
+            return ResponseEntity.ok(new LoginReespondeDTO(token));
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(Map.of("message", "Você não possui cadastro!"));
+        }
     }
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Validated RegisterDTO registerDTO){
 
         try{
-            if (this.usuarioRepos.findByUsername(registerDTO.username()) != null){
+            if
+            (this.usuarioRepos.findByUsername(registerDTO.username()) != null){
                 return ResponseEntity.badRequest()
-                        .body("Usuario já cadastrado!");
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Map.of("message", "Usuário já cadastrado!"));
             }
+
+            if
+            (this.usuarioRepos.findByEmail(registerDTO.email()) != null){
+                return ResponseEntity.badRequest()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Map.of("message", "Email já cadastrado!"));
+            }
+
             Usuario usuario = new Usuario();
 
             usuario.setUsername(registerDTO.username());
@@ -58,11 +78,13 @@ public class AuthController {
 
             this.usuarioRepos.save(usuario);
 
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok()
+                    .body(Map.of("message", "Usuário cadastrado com sucesso!"));
         }
         catch (Exception e){
             return ResponseEntity.badRequest()
-                    .body("Erro ao cadastrar usuário!");
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(Map.of("message", "Erro ao cadastrar usuário!"));
         }
     }
 }
