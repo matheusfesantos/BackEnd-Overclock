@@ -2,7 +2,9 @@ package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.entitys.Usuario;
 import com.example.overclockAPI.entitys.dto.AuthDTO;
+import com.example.overclockAPI.entitys.dto.LoginReespondeDTO;
 import com.example.overclockAPI.entitys.dto.RegisterDTO;
+import com.example.overclockAPI.infra.security.TokenService;
 import com.example.overclockAPI.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class AuthController {
     @Autowired
     private UsuarioRepository usuarioRepos;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Validated AuthDTO authDTO){
 
@@ -29,7 +34,9 @@ public class AuthController {
 
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginReespondeDTO(token));
     }
 
     @PostMapping("/register")
