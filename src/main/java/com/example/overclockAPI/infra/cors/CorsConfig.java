@@ -7,6 +7,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
@@ -15,19 +18,24 @@ public class CorsConfig implements WebMvcConfigurer {
        org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
        CorsConfiguration config = new CorsConfiguration();
 
-       config.addAllowedOriginPattern("*");
+      config.setAllowedOriginPatterns(Collections.singletonList("*"));
 
-       config.setAllowCredentials(true);
+      // Permite credenciais
+      config.setAllowCredentials(true);
 
-       config.addAllowedHeader("*");
+      // Permite todos os headers
+      config.setAllowedHeaders(Arrays.asList("*"));
 
-       config.addExposedHeader("Authorization");
+      // Headers expostos
+      config.setExposedHeaders(Arrays.asList("*"));
 
-       config.addAllowedMethod("*");
+      // Permite todos os métodos
+      config.setAllowedMethods(Arrays.asList("*"));
 
-       config.setMaxAge(3600L);
+      // Tempo de cache das permissões (1 hora)
+      config.setMaxAge(3600L);
 
-       source.registerCorsConfiguration("/**", config);
+      source.registerCorsConfiguration("/**", config);
        return new CorsFilter(source);
    }
 }
