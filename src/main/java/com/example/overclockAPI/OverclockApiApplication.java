@@ -11,19 +11,25 @@ public class OverclockApiApplication {
 
 	public static void main(String[] args) {
 
-		Dotenv dotenv = Dotenv.load();
+		// Tenta carregar as variáveis do sistema
+		String dbHost = System.getenv("DB_HOST");
+		String dbUser = System.getenv("DB_USER");
+		String dbPassword = System.getenv("DB_PASSWORD");
+		String jwtSecret = System.getenv("JWT_SECRET");
 
-		System.setProperty("spring.datasource.url",
-				Objects.requireNonNull(dotenv.get("DB_HOST")));
+		// Se não encontrar (ou estiver rodando local), carrega o .env
+		if (dbHost == null || dbUser == null || dbPassword == null || jwtSecret == null) {
+			Dotenv dotenv = Dotenv.load();
+			dbHost = dotenv.get("DB_HOST");
+			dbUser = dotenv.get("DB_USER");
+			dbPassword = dotenv.get("DB_PASSWORD");
+			jwtSecret = dotenv.get("JWT_SECRET");
+		}
 
-		System.setProperty("spring.datasource.username",
-				Objects.requireNonNull(dotenv.get("DB_USER")));
-
-		System.setProperty("spring.datasource.password",
-				Objects.requireNonNull(dotenv.get("DB_PASSWORD")));
-
-		System.setProperty("api.security.token.security",
-				Objects.requireNonNull(dotenv.get("JWT_SECRET")));
+		System.setProperty("spring.datasource.url", Objects.requireNonNull(dbHost));
+		System.setProperty("spring.datasource.username", Objects.requireNonNull(dbUser));
+		System.setProperty("spring.datasource.password", Objects.requireNonNull(dbPassword));
+		System.setProperty("api.security.token.security", Objects.requireNonNull(jwtSecret));
 
 		SpringApplication.run(OverclockApiApplication.class, args);
 	}
