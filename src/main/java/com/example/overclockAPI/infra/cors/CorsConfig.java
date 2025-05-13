@@ -1,23 +1,33 @@
 package com.example.overclockAPI.infra.cors;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
-    @Value("${cors.allowed-origins:http://localhost:3000}")
-    private String[] allowedOrigins;
+   @Bean
+    public CorsFilter corsFilter(){
+       org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+       CorsConfiguration config = new CorsConfiguration();
 
-    @Override
-    public void addCorsMappings(org.springframework.web.servlet.config.annotation.CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins(
-                        allowedOrigins)
-                .allowedMethods("GET", "POST", "DELETE")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
-    }
+       config.addAllowedOriginPattern("*");
+
+       config.setAllowCredentials(true);
+
+       config.addAllowedHeader("*");
+
+       config.addExposedHeader("Authorization");
+
+       config.addAllowedMethod("*");
+
+       config.setMaxAge(3600L);
+
+       source.registerCorsConfiguration("/**", config);
+       return new CorsFilter(source);
+   }
 }
