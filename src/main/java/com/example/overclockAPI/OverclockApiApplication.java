@@ -11,13 +11,11 @@ public class OverclockApiApplication {
 
 	public static void main(String[] args) {
 
-		// Tenta carregar as variáveis do sistema
 		String dbHost = System.getenv("DB_HOST");
 		String dbUser = System.getenv("DB_USER");
 		String dbPassword = System.getenv("DB_PASSWORD");
 		String jwtSecret = System.getenv("JWT_SECRET");
 
-		// Se não encontrar (ou estiver rodando local), carrega o .env
 		if (dbHost == null || dbUser == null || dbPassword == null || jwtSecret == null) {
 			Dotenv dotenv = Dotenv.load();
 			dbHost = dotenv.get("DB_HOST");

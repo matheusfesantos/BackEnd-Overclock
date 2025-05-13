@@ -22,8 +22,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 
-        return httpSecurity.
-                csrf(csrf -> csrf.disable())
+        return httpSecurity
+                .cors(cors -> cors.configure(httpSecurity))
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
@@ -31,11 +32,6 @@ public class SecurityConfiguration {
                                 //ENDS DE LOGIN
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                                //END POINTS
-                                .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
-                                .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated())
                 .addFilterBefore(securityFiler, UsernamePasswordAuthenticationFilter.class)
                 .build();
