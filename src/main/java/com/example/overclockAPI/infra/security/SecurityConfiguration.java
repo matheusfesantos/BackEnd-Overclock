@@ -28,8 +28,14 @@ public class SecurityConfiguration {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                //ENDS DE LOGIN
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                                //END POINTS
+                                .requestMatchers(HttpMethod.GET, "/api/**").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest().authenticated())
                 .addFilterBefore(securityFiler, UsernamePasswordAuthenticationFilter.class)
                 .build();
