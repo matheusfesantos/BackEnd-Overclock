@@ -77,6 +77,14 @@
 		</dependency>
 	</dependencies>
 
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>Overclock Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/matheusfesantos/BackEnd-Overclock</url>
+		</repository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
 			<plugin>
