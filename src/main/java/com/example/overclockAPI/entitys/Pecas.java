@@ -33,7 +33,7 @@ public class Pecas {
     @Column(name = "preco_venda")
     private double preco_venda;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_fornecedor")
     private Fornecedores fornecedor;
 }
