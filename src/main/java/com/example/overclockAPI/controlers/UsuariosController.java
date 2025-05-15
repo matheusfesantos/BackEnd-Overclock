@@ -1,6 +1,6 @@
 package com.example.overclockAPI.controlers;
 
-import com.example.overclockAPI.entitys.Usuario;
+import com.example.overclockAPI.entitys.Usuarios;
 import com.example.overclockAPI.services.endpoints.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,23 +19,23 @@ public class UsuariosController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> getUsuario(){
-        List<Usuario> usuarios = usuarioService.listarTodos();
-        return ResponseEntity.ok(usuarios);
+    public ResponseEntity<List<Usuarios>> getUsuario(){
+        List<Usuarios> usuarioEntities = usuarioService.listarTodos();
+        return ResponseEntity.ok(usuarioEntities);
     }
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<Usuario> getUsuario(@PathVariable Long id){
-        ResponseEntity<Usuario> usuarios = usuarioService.buscarPorId(id);
+    public ResponseEntity<Usuarios> getUsuario(@PathVariable Long id){
+        ResponseEntity<Usuarios> usuarios = usuarioService.buscarPorId(id);
         return ResponseEntity.ok(usuarios.getBody());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)//INFORMAR SE FOI SUCEDIDA
-    public ResponseEntity<Usuario> postUsuario(@RequestBody Usuario usuario){
-        usuario = usuarioService.salvarUsuario(usuario);
-        return ResponseEntity.ok(usuario);
+    public ResponseEntity<Usuarios> postUsuario(@RequestBody Usuarios usuarios){
+        usuarios = usuarioService.salvarUsuario(usuarios);
+        return ResponseEntity.ok(usuarios);
     }
 
     @DeleteMapping("{id}")

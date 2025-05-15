@@ -18,7 +18,7 @@ public class FornecedoresService {
         return fornecedoresRepos.findAll();
     }
 
-    public Fornecedores findById( Long id) {
+    public Fornecedores findById(Long id) {
         return fornecedoresRepos.getById(id);
     }
 

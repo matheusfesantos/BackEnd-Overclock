@@ -1,9 +1,9 @@
-package com.example.overclockAPI.controlers;
+package com.example.overclockAPI.controlers.Auh;
 
-import com.example.overclockAPI.entitys.Usuario;
-import com.example.overclockAPI.entitys.dto.AuthDTO;
-import com.example.overclockAPI.entitys.dto.LoginReespondeDTO;
-import com.example.overclockAPI.entitys.dto.RegisterDTO;
+import com.example.overclockAPI.entitys.Usuarios;
+import com.example.overclockAPI.dto.security.AuthDTO;
+import com.example.overclockAPI.dto.security.LoginReespondeDTO;
+import com.example.overclockAPI.dto.security.RegisterDTO;
 import com.example.overclockAPI.infra.security.TokenService;
 import com.example.overclockAPI.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class AuthController {
 
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
-            var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+            var token = tokenService.generateToken((Usuarios) auth.getPrincipal());
 
             return ResponseEntity.ok(new LoginReespondeDTO(token));
         }
@@ -67,16 +67,16 @@ public class AuthController {
                         .body(Map.of("message", "Email já cadastrado!"));
             }
 
-            Usuario usuario = new Usuario();
+            Usuarios usuarios = new Usuarios();
 
-            usuario.setUsername(registerDTO.username());
-            usuario.setSenha("{noop}" + registerDTO.senha());
-            usuario.setNome(registerDTO.nome());
-            usuario.setEmail(registerDTO.email());
-            usuario.setCpf(registerDTO.cpf());
-            usuario.setTipo(registerDTO.tipoUsuario());
+            usuarios.setUsername(registerDTO.username());
+            usuarios.setSenha("{noop}" + registerDTO.senha());
+            usuarios.setNome(registerDTO.nome());
+            usuarios.setEmail(registerDTO.email());
+            usuarios.setCpf(registerDTO.cpf());
+            usuarios.setTipo(registerDTO.tipoUsuario());
 
-            this.usuarioRepos.save(usuario);
+            this.usuarioRepos.save(usuarios);
 
             return ResponseEntity.ok()
                     .body(Map.of("message", "Usuário cadastrado com sucesso!"));

@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id_usuario")
-public class Usuario implements UserDetails {
+public class Usuarios implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +49,7 @@ public class Usuario implements UserDetails {
     @Column(name = "cpf")
     private String cpf;
 
-    public Usuario(String username, String senha, String nome, String email, String cpf, TipoUsuario tipoUsuario) {
+    public Usuarios(String username, String senha, String nome, String email, String cpf, TipoUsuario tipoUsuario) {
         this.username = username;
         this.senha = senha;
         this.nome = nome;
