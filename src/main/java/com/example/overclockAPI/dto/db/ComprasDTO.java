@@ -1,9 +1,8 @@
 package com.example.overclockAPI.dto.db;
 
-public record ComprasDTO (
-        String data_compra,
-        String observacao,
-        String id_fsuario,
-        String id_fornecedor
-){
+public record ComprasDTO
+        (String observacao,
+         int id_peca,
+         int id_usuario,
+         int id_fornecedor){
 }

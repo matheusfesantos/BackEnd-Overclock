@@ -29,6 +29,17 @@ public class UsuarioService {
         }
    }
 
+   public boolean validarId(Long id){
+       boolean exist = usuarioRepository.existsById(id);
+
+       if(exist){
+           return true;
+       }
+       else{
+           return false;
+       }
+   }
+
     public Usuarios salvarUsuario(Usuarios usuarios){
         return usuarioRepository.save(usuarios);
     }

@@ -23,6 +23,10 @@ public class Compras {
     private String observacao;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_peca")
+    private Pecas pecas;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
     private Usuarios usuarios;
 
