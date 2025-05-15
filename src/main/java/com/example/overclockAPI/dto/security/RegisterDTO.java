@@ -1,4 +1,4 @@
-package com.example.overclockAPI.entitys.dto;
+package com.example.overclockAPI.dto.security;
 
 import com.example.overclockAPI.entitys.enums.TipoUsuario;
 
