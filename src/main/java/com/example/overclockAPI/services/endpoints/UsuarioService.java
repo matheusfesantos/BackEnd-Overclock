@@ -1,6 +1,6 @@
 package com.example.overclockAPI.services.endpoints;
 
-import com.example.overclockAPI.entitys.Usuario;
+import com.example.overclockAPI.entitys.Usuarios;
 import com.example.overclockAPI.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +15,12 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> listarTodos(){
+    public List<Usuarios> listarTodos(){
         return usuarioRepository.findAll();
     }
 
-   public ResponseEntity<Usuario> buscarPorId(Long id){
-        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+   public ResponseEntity<Usuarios> buscarPorId(Long id){
+        Optional<Usuarios> usuarioOptional = usuarioRepository.findById(id);
         if(usuarioOptional.isPresent()){
             return ResponseEntity.ok(usuarioOptional.get());
         }
@@ -29,12 +29,23 @@ public class UsuarioService {
         }
    }
 
-    public Usuario salvarUsuario(Usuario usuario){
-        return usuarioRepository.save(usuario);
+   public boolean validarId(Long id){
+       boolean exist = usuarioRepository.existsById(id);
+
+       if(exist){
+           return true;
+       }
+       else{
+           return false;
+       }
+   }
+
+    public Usuarios salvarUsuario(Usuarios usuarios){
+        return usuarioRepository.save(usuarios);
     }
 
     public boolean deletarUsuario(Long id) {
-        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+        Optional<Usuarios> usuarioOptional = usuarioRepository.findById(id);
 
         if(usuarioOptional.isPresent()){
             usuarioRepository.delete(usuarioOptional.get());

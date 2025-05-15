@@ -18,8 +18,18 @@ public class FornecedoresService {
         return fornecedoresRepos.findAll();
     }
 
-    public Fornecedores findById( Long id) {
+    public Fornecedores findById(Long id) {
         return fornecedoresRepos.getById(id);
+    }
+
+    public boolean validarById(Long id){
+        boolean exist = fornecedoresRepos.existsById(id);
+        if(exist){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public Fornecedores save(Fornecedores fornecedores) {
