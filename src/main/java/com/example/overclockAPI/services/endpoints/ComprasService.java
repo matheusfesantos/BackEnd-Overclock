@@ -39,7 +39,7 @@ public class ComprasService {
 
             Fornecedores fornecedor = new Fornecedores();
             fornecedor.setId_fornecedor(Long.valueOf(comprasDTO.id_fornecedor()));
-            novaCompra.setFornecedor(fornecedor);
+            novaCompra.setFornecedores(fornecedor);
 
             comprasRepos.save(novaCompra);
             return true;
