@@ -1,7 +1,9 @@
 package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.entitys.Usuarios;
+import com.example.overclockAPI.infra.security.TokenService;
 import com.example.overclockAPI.services.endpoints.UsuarioService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,38 +20,34 @@ public class UsuariosController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @GetMapping
     public ResponseEntity<List<Usuarios>> getUsuario(){
         List<Usuarios> usuarioEntities = usuarioService.listarTodos();
         return ResponseEntity.ok(usuarioEntities);
     }
 
-    @GetMapping("{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<Usuarios> getUsuario(@PathVariable Long id){
-        ResponseEntity<Usuarios> usuarios = usuarioService.buscarPorId(id);
-        return ResponseEntity.ok(usuarios.getBody());
-    }
+    @GetMapping("/me")
+    public ResponseEntity<?> getUsuarioAutenticado(HttpServletRequest request){
+        String authHeader = request.getHeader("Authorization");
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)//INFORMAR SE FOI SUCEDIDA
-    public ResponseEntity<Usuarios> postUsuario(@RequestBody Usuarios usuarios){
-        usuarios = usuarioService.salvarUsuario(usuarios);
-        return ResponseEntity.ok(usuarios);
-    }
+        try{
+            if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("message", "Formato do token inválido!"));
+            }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Map<String, String>> deleteUsuario(@PathVariable Long id){
-        boolean deletado = usuarioService.deletarUsuario(id);
-        Map<String, String> resposta = new HashMap<>();
+            String token = authHeader.substring(7);
+            String username = tokenService.extrairUsername(token);
 
-        if(deletado){
-            resposta.put("message", "Usuario foi deletado com sucesso!");
-            return ResponseEntity.ok(resposta);
-        }
-        else{
-            resposta.put("messsage", "Erro ao deletar usuario!");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(resposta);
+            Usuarios usuario = usuarioService.usarDetails(username);
+            return ResponseEntity.ok(usuario);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body
+                    (Map.of("message","Um erro inesperado aconteceu!"));
         }
     }
 }

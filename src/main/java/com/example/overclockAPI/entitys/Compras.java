@@ -1,11 +1,13 @@
 package com.example.overclockAPI.entitys;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "compras")
 @Data
@@ -32,7 +34,7 @@ public class Compras {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_fornecedor")
-    private Fornecedores fornecedor;
+    private Fornecedores fornecedores;
 
     @PrePersist
     private void DataCompra(){

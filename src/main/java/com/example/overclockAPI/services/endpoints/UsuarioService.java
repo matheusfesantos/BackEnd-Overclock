@@ -21,6 +21,7 @@ public class UsuarioService {
 
    public ResponseEntity<Usuarios> buscarPorId(Long id){
         Optional<Usuarios> usuarioOptional = usuarioRepository.findById(id);
+
         if(usuarioOptional.isPresent()){
             return ResponseEntity.ok(usuarioOptional.get());
         }
@@ -40,6 +41,16 @@ public class UsuarioService {
        }
    }
 
+   public Usuarios usarDetails (String username){
+        Usuarios usuario = (Usuarios) usuarioRepository.findByUsername(username);
+
+        if (usuario == null){
+            throw new RuntimeException("Usuário não encontrado");
+        }
+        return usuario;
+   }
+
+    /*
     public Usuarios salvarUsuario(Usuarios usuarios){
         return usuarioRepository.save(usuarios);
     }
@@ -53,4 +64,5 @@ public class UsuarioService {
         }
         return false;
     }
+     */
 }
