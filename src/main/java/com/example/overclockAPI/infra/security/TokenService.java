@@ -47,6 +47,10 @@ public class TokenService {
         }
     }
 
+    public String extrairUsername(String token){
+        return JWT.decode(token).getSubject();
+    }
+
     private Instant getExpirationDate(){
         return Instant.now().plusSeconds(1800);
     }//Usar quando aplicar a expiração de TOKEN
