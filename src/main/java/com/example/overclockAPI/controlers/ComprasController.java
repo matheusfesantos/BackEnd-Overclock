@@ -4,6 +4,7 @@ import com.example.overclockAPI.dto.db.ComprasDTO;
 import com.example.overclockAPI.infra.security.TokenService;
 import com.example.overclockAPI.services.endpoints.ComprasService;
 import com.example.overclockAPI.services.endpoints.FornecedoresService;
+import com.example.overclockAPI.services.endpoints.PecasService;
 import com.example.overclockAPI.services.endpoints.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class ComprasController {
 
     @Autowired
     TokenService tokenService;
+
+    @Autowired
+    PecasService pecasService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -96,8 +100,22 @@ public class ComprasController {
             @RequestHeader("Authorization") String authorizationHeader){
 
         try {
-            String username = tokenService.extrairUsername(authorizationHeader);
+            if (authorizationHeader == null ||!authorizationHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("message", "Formato do token inválido!"));
+            }
+
+            String token = authorizationHeader.replace("Bearer ", "");
+            String username = tokenService.extrairUsername(token);
+
+
             Long userId = usuarioService.buscarIdPorUsername(username);
+
+            if (comprasDTO.id_fornecedor() == 0 || comprasDTO.id_peca() == 0
+                    || comprasDTO.observacao() == null){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
+                        (Map.of("message", "Dados inválidos!"));
+            }
 
             boolean usuarioExist =
                     usuarioService.validarId(userId);
@@ -105,12 +123,16 @@ public class ComprasController {
             boolean fornecedorExist =
                     fornecedoresService.validarById((long) comprasDTO.id_fornecedor());
 
-            if (!usuarioExist || !fornecedorExist){
+            boolean pecaExist =
+                    pecasService.validarId((long) comprasDTO.id_peca());
+
+            if (!usuarioExist || !fornecedorExist || !pecaExist){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
-                        (Map.of("message","Usuario ou Fornecedor não existem"));
+                        (Map.of("message","Usuario, Fornecedor ou Peça não existem"));
             }
 
             boolean compraCriada = comprasService.saveCompra(comprasDTO, userId);
+
             if (compraCriada){
                 return ResponseEntity.status(HttpStatus.CREATED).body
                         (Map.of("message","Compra criada com sucesso!"));
