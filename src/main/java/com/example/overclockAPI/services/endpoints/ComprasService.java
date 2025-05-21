@@ -28,17 +28,17 @@ public class ComprasService {
         return comprasRepos.existsById(id);
     }
 
-    public boolean saveCompra(ComprasDTO comprasDTO){
+    public boolean saveCompra(ComprasDTO comprasDTO, Long userId){
         try {
             Compras novaCompra = new Compras();
             novaCompra.setObservacao(comprasDTO.observacao());
 
             Usuarios usuario = new Usuarios();
-            usuario.setId_usuario(Long.valueOf(comprasDTO.id_usuario()));
+            usuario.setId_usuario(userId);
             novaCompra.setUsuarios(usuario);
 
             Fornecedores fornecedor = new Fornecedores();
-            fornecedor.setId_fornecedor(Long.valueOf(comprasDTO.id_fornecedor()));
+            fornecedor.setId_fornecedor((long) comprasDTO.id_fornecedor());
             novaCompra.setFornecedores(fornecedor);
 
             comprasRepos.save(novaCompra);

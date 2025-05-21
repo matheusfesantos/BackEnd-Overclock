@@ -1,6 +1,7 @@
 package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.dto.db.ComprasDTO;
+import com.example.overclockAPI.infra.security.TokenService;
 import com.example.overclockAPI.services.endpoints.ComprasService;
 import com.example.overclockAPI.services.endpoints.FornecedoresService;
 import com.example.overclockAPI.services.endpoints.UsuarioService;
@@ -23,6 +24,9 @@ public class ComprasController {
 
     @Autowired
     FornecedoresService fornecedoresService;
+
+    @Autowired
+    TokenService tokenService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -87,21 +91,26 @@ public class ComprasController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> criarCompra(@RequestBody ComprasDTO comprasDTO){
-
-        boolean usuarioExist =
-                usuarioService.validarId(Long.valueOf(comprasDTO.id_usuario()));
-
-        boolean fornecedorExist =
-                fornecedoresService.validarById(Long.valueOf(comprasDTO.id_fornecedor()));
-
-        if (!usuarioExist || !fornecedorExist){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
-                    (Map.of("message","Usuario ou Fornecedor não existem"));
-        }
+    public ResponseEntity<?> criarCompra(
+            @RequestBody ComprasDTO comprasDTO,
+            @RequestHeader("Authorization") String authorizationHeader){
 
         try {
-            boolean compraCriada = comprasService.saveCompra(comprasDTO);
+            String username = tokenService.extrairUsername(authorizationHeader);
+            Long userId = usuarioService.buscarIdPorUsername(username);
+
+            boolean usuarioExist =
+                    usuarioService.validarId(userId);
+
+            boolean fornecedorExist =
+                    fornecedoresService.validarById((long) comprasDTO.id_fornecedor());
+
+            if (!usuarioExist || !fornecedorExist){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
+                        (Map.of("message","Usuario ou Fornecedor não existem"));
+            }
+
+            boolean compraCriada = comprasService.saveCompra(comprasDTO, userId);
             if (compraCriada){
                 return ResponseEntity.status(HttpStatus.CREATED).body
                         (Map.of("message","Compra criada com sucesso!"));
