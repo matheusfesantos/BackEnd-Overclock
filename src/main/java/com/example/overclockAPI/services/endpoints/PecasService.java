@@ -35,6 +35,16 @@ public class PecasService {
         return pecasRepos.save(pecas);
     }
 
+    public boolean validarId(Long id){
+        boolean exist = pecasRepos.existsById(id);
+        if(exist){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     //Service para atualizar Peças
     /*
     public boolean editarPecas(Long id, Pecas pecas) {

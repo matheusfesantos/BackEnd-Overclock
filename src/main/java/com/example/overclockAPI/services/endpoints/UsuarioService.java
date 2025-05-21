@@ -50,6 +50,14 @@ public class UsuarioService {
         return usuario;
    }
 
+    public Long buscarIdPorUsername(String username) {
+        Usuarios usuario = (Usuarios) usuarioRepository.findByUsername(username);
+        if (usuario == null) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+        return usuario.getId_usuario();
+    }
+
     /*
     public Usuarios salvarUsuario(Usuarios usuarios){
         return usuarioRepository.save(usuarios);
