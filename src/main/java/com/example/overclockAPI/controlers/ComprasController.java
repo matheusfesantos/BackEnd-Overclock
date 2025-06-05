@@ -2,10 +2,7 @@ package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.dto.db.ComprasDTO;
 import com.example.overclockAPI.infra.security.TokenService;
-import com.example.overclockAPI.services.endpoints.ComprasService;
-import com.example.overclockAPI.services.endpoints.FornecedoresService;
-import com.example.overclockAPI.services.endpoints.PecasService;
-import com.example.overclockAPI.services.endpoints.UsuarioService;
+import com.example.overclockAPI.services.endpoints.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,35 +61,6 @@ public class ComprasController {
         }
     }
 
-    @PatchMapping("{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> editarCompra
-            (@PathVariable Long id, @RequestBody ComprasDTO comprasDTO){
-        boolean exist = comprasService.existsById(id);
-
-        try{
-            if (!exist){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
-                        (Map.of("message","Compra não encontrada!"));
-            }
-
-            boolean compraAtualizada =
-                    comprasService.editarCompra(id, comprasDTO.observacao());
-            if (compraAtualizada){
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body
-                        (Map.of("message","Compra atualizada com sucesso!"));
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
-                        (Map.of("message","Erro ao atualizar compra!"));
-            }
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body
-                    (Map.of("message","Aconteceu um erro inesperado!"));
-        }
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> criarCompra(
@@ -111,8 +79,7 @@ public class ComprasController {
 
             Long userId = usuarioService.buscarIdPorUsername(username);
 
-            if (comprasDTO.id_fornecedor() == 0 || comprasDTO.id_peca() == 0
-                    || comprasDTO.observacao() == null){
+            if (comprasDTO.id_fornecedor() == 0 || comprasDTO.id_peca() == 0){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
                         (Map.of("message", "Dados inválidos!"));
             }
