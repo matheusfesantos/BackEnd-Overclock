@@ -15,9 +15,6 @@ public class ComprasService {
     @Autowired
     ComprasRepository comprasRepos;
 
-    @Autowired
-    PedidosService pedidosServ;
-
     public List<Compras> findAll(){
         return comprasRepos.findAll();
     }
