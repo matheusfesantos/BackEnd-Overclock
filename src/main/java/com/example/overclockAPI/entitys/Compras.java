@@ -22,9 +22,6 @@ public class Compras {
     @Column(nullable = false)
     private LocalDateTime data_compra;
 
-    @Column(name = "observacao")
-    private String observacao;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_peca")
     private Pecas pecas;
@@ -37,6 +34,11 @@ public class Compras {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_fornecedor")
     private Fornecedores fornecedores;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_pedido")
+    private Pedidos pedidos;
 
     @PrePersist
     private void DataCompra(){
