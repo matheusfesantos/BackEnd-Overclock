@@ -1,10 +1,8 @@
 package com.example.overclockAPI.services.endpoints;
 
 import com.example.overclockAPI.dto.db.ComprasDTO;
-import com.example.overclockAPI.entitys.Compras;
-import com.example.overclockAPI.entitys.Fornecedores;
-import com.example.overclockAPI.entitys.Pecas;
-import com.example.overclockAPI.entitys.Usuarios;
+import com.example.overclockAPI.dto.db.PedidosDTO;
+import com.example.overclockAPI.entitys.*;
 import com.example.overclockAPI.repository.ComprasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,9 @@ public class ComprasService {
 
     @Autowired
     ComprasRepository comprasRepos;
+
+    @Autowired
+    PedidosService pedidosServ;
 
     public List<Compras> findAll(){
         return comprasRepos.findAll();
@@ -32,7 +33,6 @@ public class ComprasService {
     public boolean saveCompra(ComprasDTO comprasDTO, Long userId){
         try {
             Compras novaCompra = new Compras();
-            novaCompra.setObservacao(comprasDTO.observacao());
 
             Usuarios usuario = new Usuarios();
             usuario.setId_usuario(userId);
@@ -59,7 +59,6 @@ public class ComprasService {
 
         if (exist){
             Compras compraAtualizada = comprasRepos.getById(id);
-            compraAtualizada.setObservacao(observacao);
             comprasRepos.save(compraAtualizada);
             return true;
         }
