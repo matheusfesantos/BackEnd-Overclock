@@ -1,7 +1,7 @@
 package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.entitys.Pecas;
-import com.example.overclockAPI.services.endpoints.PecasService;
+import com.example.overclockAPI.services.PecasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,29 +33,24 @@ public class PecasController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<Pecas> salvarPecas(@RequestBody Pecas pecas){
-        return ResponseEntity.ok(pecasService.salvarPecas(pecas));
-    }
+    public ResponseEntity<?> salvarPecas(@RequestBody Pecas pecas) {
+        try {
+            if (pecas.getQuantidade_estoque() < 0 || pecas.getNome_do_produto() == null ||
+                    pecas.getNome_do_produto().isEmpty() || pecas.getDescricao_do_produto() == null ||
+                    pecas.getCategoria_do_produto() == null || pecas.getPreco_custo() <= 0 ||
+                    pecas.getPreco_venda() <= 0 || pecas.getFornecedor() == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body
+                        (Map.of("message", "Campos essenciais nulos"));
+            }
 
-    /*
-    @PutMapping("{id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<Map<String, String>> editarPecas
-            (@PathVariable Long id, @RequestBody Pecas pecas){
-        boolean atualizado = pecasService.deletarPecas(id);
-        Map<String, String> resposta = new HashMap<>();
-
-        if(atualizado){
-            resposta.put("message", pecas.getNome()+" atualizada com sucesso");
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(resposta);
-        }
-        else{
-            resposta.put("message", "Erro ao atualizar" + pecas.getNome());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resposta);
+            Pecas pecaSalva = pecasService.salvarPecas(pecas);
+            return ResponseEntity.status(HttpStatus.CREATED).body
+                    (Map.of("message", "Peca cadastrada com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
+                    (Map.of("message", "Erro ao cadastrar peca!"));
         }
     }
-     */
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)

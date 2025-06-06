@@ -1,4 +1,4 @@
-package com.example.overclockAPI.services;
+package com.example.overclockAPI.services.auth;
 
 import com.example.overclockAPI.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

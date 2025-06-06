@@ -1,6 +1,5 @@
 package com.example.overclockAPI.entitys;
 
-import com.example.overclockAPI.entitys.enums.TipoPedido;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,17 +19,21 @@ public class Pedidos {
     @Column(name = "data_pedido")
     private LocalDateTime data_pedido;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 20)
-    private TipoPedido status;
+    @Column(name = "qtd_pedidos")
+    private int quantidade;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
     private Usuarios usuarios;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_compra")
-    private Compras compras;
+    @Column(name = "id_peca")
+    private Long idPeca;
+
+    @Column(name = "observacao")
+    private String observacao;
+
+    @Column(name = "id_fornecedor")
+    private Long idFornecedor;
 
     @PrePersist
     private void DataPedido(){

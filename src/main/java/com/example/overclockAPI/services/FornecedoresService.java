@@ -1,4 +1,4 @@
-package com.example.overclockAPI.services.endpoints;
+package com.example.overclockAPI.services;
 
 import com.example.overclockAPI.entitys.Fornecedores;
 import com.example.overclockAPI.repository.FornecedoresRepository;
@@ -24,12 +24,11 @@ public class FornecedoresService {
 
     public boolean validarById(Long id){
         boolean exist = fornecedoresRepos.existsById(id);
+
         if(exist){
             return true;
         }
-        else{
-            return false;
-        }
+        return false;
     }
 
     public Fornecedores save(Fornecedores fornecedores) {
