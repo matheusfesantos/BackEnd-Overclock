@@ -26,19 +26,17 @@ public class Compras {
     @JoinColumn(name = "id_peca")
     private Pecas pecas;
 
+    @Column(name = "qtd_compras")
+    private int quantidade;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_usuario")
     private Usuarios usuarios;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_fornecedor")
-    private Fornecedores fornecedores;
+    @Column(name = "id_fornecedor")
+    private Long id_fornecedor;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_pedido")
-    private Pedidos pedidos;
+    private String observacao;
 
     @PrePersist
     private void DataCompra(){

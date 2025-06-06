@@ -1,4 +1,4 @@
-package com.example.overclockAPI.services.endpoints;
+package com.example.overclockAPI.services;
 
 import com.example.overclockAPI.entitys.Pecas;
 import com.example.overclockAPI.repository.PecasRepository;

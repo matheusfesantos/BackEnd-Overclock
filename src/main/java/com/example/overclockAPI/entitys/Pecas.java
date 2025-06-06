@@ -36,4 +36,6 @@ public class Pecas {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_fornecedor")
     private Fornecedores fornecedor;
+
+
 }

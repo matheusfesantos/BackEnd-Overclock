@@ -1,9 +1,9 @@
-package com.example.overclockAPI.services.endpoints;
+package com.example.overclockAPI.services;
 
 import com.example.overclockAPI.dto.db.ComprasDTO;
-import com.example.overclockAPI.dto.db.PedidosDTO;
 import com.example.overclockAPI.entitys.*;
 import com.example.overclockAPI.repository.ComprasRepository;
+import com.example.overclockAPI.repository.PecasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,12 @@ public class ComprasService {
 
     @Autowired
     ComprasRepository comprasRepos;
+
+    @Autowired
+    private MovimentacaoService movimentacaoService;
+
+    @Autowired
+    PecasRepository pecasRepository;
 
     public List<Compras> findAll(){
         return comprasRepos.findAll();
@@ -27,8 +33,15 @@ public class ComprasService {
         return comprasRepos.existsById(id);
     }
 
-    public boolean saveCompra(ComprasDTO comprasDTO, Long userId){
+    public boolean saveCompra(ComprasDTO comprasDTO, Long userId) {
         try {
+
+            Pecas peca = pecasRepository.getReferenceById((long) comprasDTO.id_peca());
+            int novoEstoque = peca.getQuantidade_estoque() + comprasDTO.quantidade();
+
+            peca.setQuantidade_estoque(novoEstoque);
+            pecasRepository.save(peca);
+
             Compras novaCompra = new Compras();
 
             Usuarios usuario = new Usuarios();
@@ -36,20 +49,22 @@ public class ComprasService {
             novaCompra.setUsuarios(usuario);
 
             Fornecedores fornecedor = new Fornecedores();
-            fornecedor.setId_fornecedor((long) comprasDTO.id_fornecedor());
-            novaCompra.setFornecedores(fornecedor);
+            fornecedor.setIdFornecedor(Long.valueOf(comprasDTO.id_fornecedor()));
+            novaCompra.setId_fornecedor(fornecedor.getIdFornecedor());
 
-            Pecas pecas = new Pecas();
-            pecas.setId_peca((long) comprasDTO.id_peca());
-            novaCompra.setPecas(pecas);
+            novaCompra.setPecas(peca);
+            novaCompra.setQuantidade(comprasDTO.quantidade());
+            novaCompra.setObservacao(comprasDTO.observacao());
 
-            comprasRepos.save(novaCompra);
+            Compras compraSalva = comprasRepos.save(novaCompra);
+            movimentacaoService.salvarMovimentacaoCompra(compraSalva);
             return true;
 
         } catch (Exception e) {
             return false;
         }
     }
+
 
     public boolean editarCompra(Long id, String observacao){
         boolean exist = comprasRepos.existsById(id);

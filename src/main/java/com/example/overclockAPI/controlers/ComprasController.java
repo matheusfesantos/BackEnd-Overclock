@@ -2,7 +2,10 @@ package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.dto.db.ComprasDTO;
 import com.example.overclockAPI.infra.security.TokenService;
-import com.example.overclockAPI.services.endpoints.*;
+import com.example.overclockAPI.services.ComprasService;
+import com.example.overclockAPI.services.FornecedoresService;
+import com.example.overclockAPI.services.PecasService;
+import com.example.overclockAPI.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,31 +75,28 @@ public class ComprasController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .body(Map.of("message", "Formato do token inválido!"));
             }
-
             String token = authorizationHeader.replace("Bearer ", "");
             String username = tokenService.extrairUsername(token);
-
-
             Long userId = usuarioService.buscarIdPorUsername(username);
 
-            if (comprasDTO.id_fornecedor() == 0 || comprasDTO.id_peca() == 0){
+            if (comprasDTO.id_fornecedor() == 0 || comprasDTO.id_peca() == 0
+                    || comprasDTO.quantidade() == 0){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
                         (Map.of("message", "Dados inválidos!"));
             }
 
-            boolean usuarioExist =
-                    usuarioService.validarId(userId);
-
-            boolean fornecedorExist =
-                    fornecedoresService.validarById((long) comprasDTO.id_fornecedor());
-
-            boolean pecaExist =
-                    pecasService.validarId((long) comprasDTO.id_peca());
-
-            if (!usuarioExist || !fornecedorExist || !pecaExist){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body
-                        (Map.of("message","Usuario, Fornecedor ou Peça não existem"));
+            boolean fornecedorExist = fornecedoresService.validarById((long) comprasDTO.id_fornecedor());
+            if (!fornecedorExist) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                        Map.of("message", "Fornecedor não encontrado com ID: " + comprasDTO.id_fornecedor()));
             }
+
+            boolean pecaExist = pecasService.validarId((long) comprasDTO.id_peca());
+            if (!pecaExist) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                        Map.of("message", "Peça não encontrada com ID: " + comprasDTO.id_peca()));
+            }
+
 
             boolean compraCriada = comprasService.saveCompra(comprasDTO, userId);
 
@@ -109,10 +109,27 @@ public class ComprasController {
                         (Map.of("message","Erro ao criar compra!"));
             }
         }
-        catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body
-                    (Map.of("message","Aconteceu um erro inesperado!"));
+        catch (RuntimeException e) {
+            if (e.getMessage().contains("Estoque insuficiente")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                        Map.of("message", "Estoque insuficiente para realizar a compra",
+                                "error", e.getMessage())
+                );
+            }
+            throw e;
         }
+        catch (Exception e){
+            System.err.println("Erro ao criar compra: " + e.getMessage());
+            e.printStackTrace();
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body
+                    (Map.of(
+                            "message", "Aconteceu um erro inesperado!",
+                            "error", e.getMessage(),
+                            "details", e.getClass().getName()
+                    ));
+        }
+
     }
 
     @DeleteMapping("{id}")

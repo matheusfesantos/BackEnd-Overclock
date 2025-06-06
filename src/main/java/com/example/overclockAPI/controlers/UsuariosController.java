@@ -2,14 +2,13 @@ package com.example.overclockAPI.controlers;
 
 import com.example.overclockAPI.entitys.Usuarios;
 import com.example.overclockAPI.infra.security.TokenService;
-import com.example.overclockAPI.services.endpoints.UsuarioService;
+import com.example.overclockAPI.services.UsuarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

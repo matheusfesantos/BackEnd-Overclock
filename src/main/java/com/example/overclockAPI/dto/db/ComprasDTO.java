@@ -1,6 +1,8 @@
 package com.example.overclockAPI.dto.db;
 
 public record ComprasDTO(
-         int id_peca,
-         int id_fornecedor){
+         Long id_peca,
+         Long id_fornecedor,
+         int quantidade,
+         String observacao){
 }
