@@ -90,8 +90,8 @@ public class PedidosController {
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<?> deletarPedido (@RequestBody Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletarPedido (@PathVariable Long id){
 
         try {
             boolean pedidoExist = pedidosService.validarId(id);
