@@ -65,7 +65,6 @@ public class ComprasController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> criarCompra(
             @RequestBody ComprasDTO comprasDTO,
             @RequestHeader("Authorization") String authorizationHeader){
